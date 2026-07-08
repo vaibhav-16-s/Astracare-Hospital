@@ -58,7 +58,7 @@ function PatientReg() {
     return (
         <>
             <div className="header"><PatientNav /></div>
-            <div className="body">
+            <div className="body">Patient Registration
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
                 <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>

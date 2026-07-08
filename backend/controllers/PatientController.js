@@ -2,13 +2,10 @@ const patient = require("../models/Patient");
 const bcrypt = require("bcrypt");
 const user = require("../models/User");
 
-
 exports.regPatient = async (req, res) => {
     try {
         const patientData = await patient.create(req.body);
-
         const hashPass = await bcrypt.hash(req.body.password, 10);
-
         const userData = await user.create({
             email: req.body.email,
             password: hashPass,

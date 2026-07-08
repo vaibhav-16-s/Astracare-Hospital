@@ -1,24 +1,24 @@
-const doctor = require("../models/Doctor");
+const staff = require("../models/Staff");
 const user=require("../models/User");
 const bcrypt=require("bcrypt");
 
-exports.regDoc = async (req, res) => {
+exports.regStaff = async (req, res) => {
     try {
         // old way to save data
         // const doctor = new Doctor(req.body);
         // await doctor.save();
 
         //new way to save data
-        const docData = await doctor.create({
+        const staffData = await staff.create({
             name: req.body.name,
             email: req.body.email,
             contact: req.body.contact,
             address: req.body.addr,
             gender: req.body.gender,
             dateOfBirth: req.body.dob,
-            department: req.body.dept,
+            dept: req.body.dept,
             status: req.body.status,
-            qualification: req.body.qual,
+            role:req.body.role
          
         });
 
@@ -29,16 +29,16 @@ exports.regDoc = async (req, res) => {
         const userData=await user.create({
             email:req.body.email,
             password:hashPass,
-            userId:docData._id,
-            role:"Doctor"
+            userId:staffData._id,
+            role:req.body.role
         })
         res.json({
             success: true,
-            message: "Doctor Registered Successfully",
-            docData:{
-                 ...docData.toObject(),
-                createdAt: docData.createdAt.toLocaleString("en-IN"),
-                updatedAt: docData.updatedAt.toLocaleString("en-IN")
+            message: "Staff Registered Successfully",
+            staffData:{
+                 ...staffData.toObject(),
+                createdAt: staffData.createdAt.toLocaleString("en-IN"),
+                updatedAt: staffData.updatedAt.toLocaleString("en-IN")
             }
         });
     } catch (e) {

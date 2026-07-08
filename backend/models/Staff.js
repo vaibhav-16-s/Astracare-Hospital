@@ -45,14 +45,12 @@ const staffSchema = new mongoose.Schema({
     default: "Active"
   },
 
-
-
   role: {
     type: String,
     required: true,
     enum: ["Receptionist", "Nurse", "Lab Technician"]
-  }
+  },
 
 }, { timestamps: true });
 
-export const staffModel =  mongoose.model("Staff", staffSchema);
+module.exports =  mongoose.model("Staff", staffSchema);
