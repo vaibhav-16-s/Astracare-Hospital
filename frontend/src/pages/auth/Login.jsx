@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { HomeNav } from "../../components/navbar/HomeNav";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
+    const navigate=useNavigate();
     const LoginUser = async () => {
         const response = await axios.post('http://localhost:5000/api/login', { email, pass });
         let result = response.data;

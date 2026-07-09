@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { StaffNav } from '../../../components/navbar/StaffNav'
+
 import { useState } from 'react';
+import { AdminNav } from '../../../../components/navbar/AdminNav';
 
 function StaffReg() {
     const [name, setName] = useState("");
@@ -17,7 +18,7 @@ function StaffReg() {
     const [cPass, setCpass] = useState("");
 
     const StaffRegister = async (req, res) => {
-        const response = await axios.post('http://localhost:5000/staff/register', {
+        const response = await axios.post('http://localhost:5000/admin/staffregister', {
             name, email, contact, addr, gender, dept, status, role, dob, pass,
         });
         const result = await response.data;
@@ -39,8 +40,8 @@ function StaffReg() {
     }
     return (
         <>
-            <div className='header'><StaffNav /></div>
-            <div className='body'>Staff Registration
+            <div className='header'> <AdminNav /></div>
+            <div className='body'><h2>Staff Registration</h2>
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
                 <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>
@@ -55,9 +56,17 @@ function StaffReg() {
                 <p><button onClick={StaffRegister}>Register</button></p>
                 <h4>{res}</h4>
             </div>
-            <div className='footer'></div>
+             <div className='footer'>
+                <div>© Astracare</div>
+                <div><h2>About</h2>
+                    <p>this is about Astracare
+                    </p></div>
+                <div><h2>Contact</h2>
+                    <p>this is contact details
+                    </p>
+                </div>
+            </div>
         </>
     )
 }
-
 export default StaffReg

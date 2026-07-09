@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { DoctorNav } from '../../../components/navbar/DoctorNav';
+
 import axios from 'axios';
+import { AdminNav } from '../../../../components/navbar/AdminNav';
 function DoctorReg() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -11,23 +12,23 @@ function DoctorReg() {
     const [status, setStatus] = useState("");
     const [qual, setQual] = useState("");
     const [dob, setDOB] = useState("");
-    const [res,setRes]=useState("");
-    const [pass,setPass]=useState("");
-    const [cPass,setCpass]=useState("");
+    const [res, setRes] = useState("");
+    const [pass, setPass] = useState("");
+    const [cPass, setCpass] = useState("");
 
-    const DocRegister=async(req,res)=>{
-        const response=await axios.post('http://localhost:5000/doc/register', {
-        name,email,contact,addr,gender,dept,status,qual,dob,pass,
-    });
-        const result=await response.data;
-        console.log("doc reg response :- ",result);
-        if(result){
+    const DocRegister = async (req, res) => {
+        const response = await axios.post('http://localhost:5000/admin/docregister', {
+            name, email, contact, addr, gender, dept, status, qual, dob, pass,
+        });
+        const result = await response.data;
+        console.log("doc reg response :- ", result);
+        if (result) {
             setRes(result.message);
             setName("");
             setContact("");
             setAddr("");
             setEmail("");
-            setDept("");  
+            setDept("");
             setGender("");
             setQual("");
             setDOB("");
@@ -38,8 +39,8 @@ function DoctorReg() {
     }
     return (
         <>
-            <div className="header"><DoctorNav/></div>
-            <div className="body">Doctor Registration
+            <div className='header'> <AdminNav /></div>
+            <div className="body"><h2>Doctor Registration</h2>
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
                 <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>
@@ -54,7 +55,16 @@ function DoctorReg() {
                 <p><button onClick={DocRegister}>Register</button></p>
                 <h4>{res}</h4>
             </div>
-            <div className="footer"></div>
+             <div className='footer'>
+                <div>© Astracare</div>
+                <div><h2>About</h2>
+                    <p>this is about Astracare
+                    </p></div>
+                <div><h2>Contact</h2>
+                    <p>this is contact details
+                    </p>
+                </div>
+            </div>
         </>
     )
 }

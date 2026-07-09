@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { AdminNav } from "../../../components/navbar/AdminNav";
+import { AdminNav } from "../../../../components/navbar/AdminNav";
 
 function ManagePatients() {
     return (
@@ -76,6 +76,28 @@ function ManagePatients() {
                             </tbody>
                         </Table>
                     </div>
+                     {/* 
+    TODO: View More Logic
+
+    1. Create state:
+       const [receptionLimit, setReceptionLimit] = useState(10);
+
+    2. Fetch all receptionists from backend.
+
+    3. Display only:
+       receptionists.slice(0, receptionLimit)
+
+    4. On "View More" button click:
+       setReceptionLimit(prev => prev + 10);
+
+    5. Hide button when:
+       receptionLimit >= receptionists.length
+*/}
+                        <div className="text-center mt-3">
+                            <Button variant="secondary">
+                                View More
+                            </Button>
+                        </div>
 
                 </div>
             </div>

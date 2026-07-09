@@ -13,9 +13,18 @@ export const PatientNav = () => {
             height="30"
             className="me-2" />AstraCare</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Dashboard</Nav.Link>
-            <Nav.Link href="">Login</Nav.Link>
-            <Nav.Link href="#">##</Nav.Link>
+            <Nav.Link href="/patient/home">Dashboard</Nav.Link>
+            <Nav.Link href="">Book Appointment</Nav.Link>
+
+
+            <NavDropdown title="History" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Medical History</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">reports</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4"></NavDropdown.Item>
+            </NavDropdown>
+
+
             <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Update Password</NavDropdown.Item>
               <NavDropdown.Divider />

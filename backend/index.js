@@ -3,10 +3,11 @@ const dotenv=require("dotenv");
 const express =require("express");
 const cors=require ("cors");
 const connectDB = require("./config/Db");
-const DocRoutes = require("./routes/DocRoutes");
+
 const PatientRoutes=require("./routes/PatientRoutes");
-const StaffRoutes=require("./routes/StaffRoutes");
+
 const AdminRoute=require('./routes/AdminRoute');
+const LoginRoute=require('./routes/LoginRoute');
 const app=express();
 
 dotenv.config();
@@ -21,10 +22,11 @@ app.get("/", (req, res) => {
 });
 
 //routes - api
-app.use('/doc', DocRoutes);
+
 app.use('/patient',PatientRoutes);
-app.use('/staff',StaffRoutes);
-app.use('/admin',AdminRoute)
+
+app.use('/admin',AdminRoute);
+app.use('/api',LoginRoute);
 
 const PORT=process.env.PORT || 5000;
 

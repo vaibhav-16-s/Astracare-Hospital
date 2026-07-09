@@ -12,17 +12,17 @@ export const AdminNav = () => {
             height="30"
             className="me-2" />AstraCare</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#">Dashboard</Nav.Link>
-            <Nav.Link href="#">Doctors</Nav.Link>
-            <Nav.Link href="#">Staff</Nav.Link>
-            <Nav.Link href="#">Patient</Nav.Link>
-            <Nav.Link href="#">Department</Nav.Link>
-            <Nav.Link href="#">appointments</Nav.Link>
-            <Nav.Link href="#">Shifts</Nav.Link>
+            <Nav.Link href="/admin/home">Dashboard</Nav.Link>
+            <Nav.Link href="/admin/managedoctors">Doctors</Nav.Link>
+            <Nav.Link href="/admin/managestaff">Staff</Nav.Link>
+            <Nav.Link href="/admin/managepatients">Patient</Nav.Link>
+            <Nav.Link href="/admin/managedept">Department</Nav.Link>
+            <Nav.Link href="/admin/manageappointment">appointments</Nav.Link>
+            <Nav.Link href="/admin/manageshifts">Shifts</Nav.Link>
 
           <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Update Password</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Register Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/admin/register">Register Admin</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">logout</NavDropdown.Item>
             </NavDropdown>

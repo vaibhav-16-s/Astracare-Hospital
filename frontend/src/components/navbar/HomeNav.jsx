@@ -19,6 +19,7 @@ export const HomeNav = () => {
             <Nav.Link href="/login">Login</Nav.Link>
             <Nav.Link href="#about">About</Nav.Link>
             <Nav.Link href="#contact">Contact</Nav.Link>
+            <Nav.Link href="/patient/register">Get Started</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

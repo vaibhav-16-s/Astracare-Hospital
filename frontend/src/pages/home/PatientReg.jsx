@@ -1,7 +1,7 @@
 import  { useState } from 'react'
 
 import axios from 'axios';
-import { PatientNav } from '../../../components/navbar/PatientNav';
+import { PatientNav } from '../../components/navbar/PatientNav';
 function PatientReg() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -32,7 +32,6 @@ function PatientReg() {
             setEmail("");
             setBgroup("")
             setGender("");
-            setMedHis("")
             setDOB("");
             setPass("");
             setCpass("");
@@ -58,7 +57,7 @@ function PatientReg() {
     return (
         <>
             <div className="header"><PatientNav /></div>
-            <div className="body">Patient Registration
+            <div className="body"><h2>patient register</h2>
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
                 <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>

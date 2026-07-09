@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { AdminNav } from "../../../components/navbar/AdminNav";
+import { AdminNav } from "../../../../components/navbar/AdminNav";
 
 function AdminReg() {
 
@@ -22,7 +22,7 @@ function AdminReg() {
         try {
 
             const response = await axios.post(
-                "http://localhost:5000/admin/register",
+                "http://localhost:5000/admin/adminregister",
                 {
                     name,
                     email,
@@ -123,17 +123,7 @@ function AdminReg() {
 
             </div>
 
-            <Card style={{ width: '18rem' }}>
-            <Card.Body>
-              <Card.Title>total departments</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
-              <Card.Text>
-
-              </Card.Text>
-              <Card.Link href="#">view departments</Card.Link>
-
-            </Card.Body>
-          </Card>
+           
           
             <div className='footer'> <div>© Astracare</div>
                 <div><h2>About</h2>

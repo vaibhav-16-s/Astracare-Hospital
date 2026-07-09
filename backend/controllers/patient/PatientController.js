@@ -1,6 +1,6 @@
-const patient = require("../models/Patient");
+const patient = require("../../models/Patient");
 const bcrypt = require("bcrypt");
-const user = require("../models/User");
+const user = require("../../models/User");
 
 exports.regPatient = async (req, res) => {
     try {

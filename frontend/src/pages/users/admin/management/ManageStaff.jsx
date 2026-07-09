@@ -1,8 +1,10 @@
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import { AdminNav } from '../../../components/navbar/AdminNav'
+import { AdminNav } from '../../../../components/navbar/AdminNav'
+import { useNavigate } from 'react-router-dom';
 
 function ManageStaff() {
+    const navigate=useNavigate();
     return (
         <>
             <div className='header'> <AdminNav /></div>
@@ -18,6 +20,7 @@ function ManageStaff() {
                         <input type="text" placeholder="Search By Dept/" className=" mr-sm-2" />
                         <Button variant="warning" size="sm">Search</Button>
                     </div>
+                    <div><Button onClick={() => navigate("/staff/register")} variant="warning" size="sm">Register Staff</Button></div>
                     <br />
                     <div>
 
@@ -119,8 +122,6 @@ function ManageStaff() {
                                             Edit
                                         </Button>
 
-
-
                                         <Button variant="danger" size="sm" className="ms-2" className="ms-2">
                                             Delete
                                         </Button>
@@ -189,8 +190,8 @@ function ManageStaff() {
                                 </tr>
                             </tbody>
                         </Table>
-                    
-               { /*
+
+                        { /*
             =========================================
             Future Improvements
             =========================================
@@ -223,8 +224,8 @@ function ManageStaff() {
                         </div>
 
                     </div>
-            </div>
-        </div >
+                </div>
+            </div >
 
             <div className='footer'>
                 <div>© Astracare</div>
