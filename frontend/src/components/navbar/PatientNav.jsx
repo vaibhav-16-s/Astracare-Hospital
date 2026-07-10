@@ -15,8 +15,6 @@ export const PatientNav = () => {
           <Nav className="me-auto">
             <Nav.Link href="/patient/home">Dashboard</Nav.Link>
             <Nav.Link href="">Book Appointment</Nav.Link>
-
-
             <NavDropdown title="History" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Medical History</NavDropdown.Item>
               <NavDropdown.Divider />

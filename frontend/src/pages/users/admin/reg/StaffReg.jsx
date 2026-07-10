@@ -17,25 +17,57 @@ function StaffReg() {
     const [pass, setPass] = useState("");
     const [cPass, setCpass] = useState("");
 
-    const StaffRegister = async (req, res) => {
-        const response = await axios.post('http://localhost:5000/admin/staffregister', {
-            name, email, contact, addr, gender, dept, status, role, dob, pass,
-        });
-        const result = await response.data;
-        console.log("staff reg response :- ", result);
-        if (result) {
+    const StaffRegister = async () => {
+        try {
+
+            const response = await axios.post(
+                "http://localhost:5000/admin/staffregister",
+                {
+                    name,
+                    email,
+                    contact,
+                    addr,
+                    gender,
+                    dept,
+                    status,
+                    role,
+                    dob,
+                    pass
+                }
+            );
+
+            const result = response.data;
+
+            console.log("staff reg response :- ", result);
+
             setRes(result.message);
-            setName("");
-            setContact("");
-            setAddr("");
-            setEmail("");
-            setDept("");
-            setGender("");
-            setRole("");
-            setDOB("");
-            setPass("");
-            setCpass("");
-            setStatus("");
+
+            if (result.success) {
+
+                setName("");
+                setContact("");
+                setAddr("");
+                setEmail("");
+                setDept("");
+                setGender("");
+                setRole("");
+                setDOB("");
+                setPass("");
+                setCpass("");
+                setStatus("");
+
+            }
+
+        }
+        catch (error) {
+
+            console.log(error);
+
+            setRes(
+                error.response?.data?.message ||
+                "Staff Registration Failed"
+            );
+
         }
     }
     return (
@@ -44,19 +76,60 @@ function StaffReg() {
             <div className='body'><h2>Staff Registration</h2>
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
-                <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>
+                <p>Gender: 
+                    <select value={gender} onChange={(e) => setGender(e.target.value)}> 
+
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+                </p>
                 <p>DOB: <input type="date" value={dob} onChange={(e) => setDOB(e.target.value)} /></p>
                 <p>Contact: <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} /></p>
                 <p>Address: <input type="text" value={addr} onChange={(e) => setAddr(e.target.value)} /></p>
                 <p>Department: <input type="text" value={dept} onChange={(e) => setDept(e.target.value)} /></p>
-                <p>Status: <input type="text" value={status} onChange={(e) => setStatus(e.target.value)} /></p>
-                <p>Role: <input type="text" value={role} onChange={(e) => setRole(e.target.value)} /></p>
+                <p> Role: 
+                    <select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                    > 
+
+                        <option value="">Select Role</option>
+                        <option value="Receptionist">
+                            Receptionist
+                        </option>
+
+                        <option value="Nurse">
+                            Nurse
+                        </option>
+
+                        <option value="Lab Technician">
+                            Lab Technician
+                        </option>
+
+                    </select>
+                </p>
+                <p>Status:  
+                    <select
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="On Leave">On Leave</option>
+
+                    </select>
+                </p>
                 <p>Password: <input type="text" value={pass} onChange={(e) => setPass(e.target.value)} /></p>
                 <p>Confirm: <input type="text" value={cPass} onChange={(e) => setCpass(e.target.value)} /></p>
                 <p><button onClick={StaffRegister}>Register</button></p>
                 <h4>{res}</h4>
             </div>
-             <div className='footer'>
+            <div className='footer'>
                 <div>© Astracare</div>
                 <div><h2>About</h2>
                     <p>this is about Astracare

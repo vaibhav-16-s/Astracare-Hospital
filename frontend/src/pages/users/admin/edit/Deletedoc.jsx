@@ -26,7 +26,7 @@ function Deletedoc() {
     }, [])
 
     const getDocDetails = async () => {
-        const response = await axios.post(`http://localhost:5000/admin/getdocdetails/`, { id });
+        const response = await axios.get(`http://localhost:5000/admin/getdocdetails/${id}`);
         let result = response.data.docData;
         setName(result.name);
         setEmail(result.email);
@@ -42,7 +42,7 @@ function Deletedoc() {
     const DocDelete = async (req, res) => {
         try {
             if (!window.confirm("Are you sure you want to delete this doctor? This action cannot be undone.")) return;
-            const response = await axios.post('http://localhost:5000/admin/deletedoc',{id})
+            const response = await axios.delete(`http://localhost:5000/admin/deletedoc/${id}`)
             
             if (response.data) {
                 setRes(response.data.msg);

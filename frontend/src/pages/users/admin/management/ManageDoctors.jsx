@@ -67,9 +67,7 @@ function ManageDoctors() {
                             </thead>
                             <tbody>
                                 {
-                                    filteredDoctors
-                                        .slice(0, docLimit)
-                                        .map((doc, index) => (
+                                    filteredDoctors.slice(0, docLimit).map((doc, index) => (
                                             <>
                                                 <tr
                                                     key={doc._id}
@@ -97,8 +95,7 @@ function ManageDoctors() {
                                                             to={`/admin/editdoc/${doc._id}`}
                                                             variant="warning"
                                                             size="sm"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
+                                                            onClick={(e) => e.stopPropagation()}>
                                                             Edit
                                                         </Button>
 

@@ -25,7 +25,7 @@ function EditDoc() {
     }, [])
 
     const getDocDetails = async () => {
-        const response = await axios.post(`http://localhost:5000/admin/getdocdetails/`, { id });
+        const response = await axios.get(`http://localhost:5000/admin/getdocdetails/${id}`);
         let result = response.data.docData;
         setName(result.name);
         setEmail(result.email);
@@ -40,8 +40,8 @@ function EditDoc() {
 
     const DocUpdate = async (req, res) => {
         try {
-            const response = await axios.post('http://localhost:5000/admin/updatedoc',
-                { name, email, contact, addr, gender, status, dept, qual,dob,id});
+            const response = await axios.put(`http://localhost:5000/admin/updatedoc/${id}`,
+                { name, email, contact, addr, gender, status, dept, qual,dob});
             let result = await response.data;
             if (result) {
                 setRes(result.message);
