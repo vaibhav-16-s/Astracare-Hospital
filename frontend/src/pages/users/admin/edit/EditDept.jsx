@@ -53,6 +53,7 @@ function EditDept() {
                 {id,name,description,headDoctorEmail,location,status}
             );
             setRes(response.data.message);
+             setTimeout(() => navigate("/admin/managedept", { replace: true }), 2000);
         }
         catch(error){
             console.log(error);

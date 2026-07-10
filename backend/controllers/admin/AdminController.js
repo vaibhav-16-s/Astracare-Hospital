@@ -218,15 +218,15 @@ exports.getdocdetails = async (req, res) => {
 exports.updatedoc = async (req, res) => {
     try {
         const id = req.params.id;
-        const nm = req.params.name
-        const em = req.params.email
-        const ct = req.params.contact
-        const add = req.params.addr
-        const gd = req.params.gender
-        const dob = req.params.dob
-        const dept = req.params.dept
-        const st = req.params.status
-        const qual = req.params.qual
+        const nm = req.body.name
+        const em = req.body.email
+        const ct = req.body.contact
+        const add = req.body.addr
+        const gd = req.body.gender
+        const dob = req.body.dob
+        const dept = req.body.dept
+        const st = req.body.status
+        const qual = req.body.qual
         const filter = { _id: id };
         const update = { department: dept, name: nm, email: em, contact: ct, address: add, gender: gd, dateOfBirth: dob, status: st, qualification: qual }
 
@@ -308,13 +308,13 @@ exports.getDeptDetails = async (req, res) => {
 exports.updateDept = async (req, res) => {
     try {
         const doc = await doctor.findOne({
-            email: req.params.headDoctorEmail
+            email: req.body.headDoctorEmail
         });
         const updateData = {
-            name: req.params.name,
-            description: req.params.description,
-            location: req.params.location,
-            status: req.params.status
+            name: req.body.name,
+            description: req.body.description,
+            location: req.body.location,
+            status: req.body.status
         };
         if (doc) {
             updateData.headDoctor = doc._id;
@@ -399,15 +399,15 @@ exports.editStaff = async (req, res) => {
         const staffId = req.params.id;
         const updatedStaff = await Staff.findByIdAndUpdate(staffId,
             {
-                name: req.params.name,
-                email: req.params.email,
-                contact: req.params.contact,
-                address: req.params.address,
-                gender: req.params.gender,
-                dateOfBirth: req.params.dateOfBirth,
-                dept: req.params.dept,
-                status: req.params.status,
-                role: req.params.role
+                name: req.body.name,
+                email: req.body.email,
+                contact: req.body.contact,
+                address: req.body.address,
+                gender: req.body.gender,
+                dateOfBirth: req.body.dateOfBirth,
+                dept: req.body.dept,
+                status: req.body.status,
+                role: req.body.role
             }, { new: true }
         );
 
@@ -417,7 +417,7 @@ exports.editStaff = async (req, res) => {
                 message: "Staff not found"
             });
         }
-        await User.findOneAndUpdate({ userId: staffId }, { email: req.params.email, role: req.params.role });
+        await User.findOneAndUpdate({ userId: staffId }, { email: req.body.email, role: req.body.role });
         res.status(200).json({
             success: true,
             message: "Staff Updated Successfully",
@@ -435,8 +435,8 @@ exports.editStaff = async (req, res) => {
 
 exports.deleteStaff = async (req, res) => {
     try {
-        const staffId = req.params.id;
-        const staffData = await Staff.findById(staffId);
+        const staffId = req.params.id
+        const staffData = await staff.findById(staffId);
 
         if (!staffData) {
             return res.status(404).json({
@@ -445,12 +445,10 @@ exports.deleteStaff = async (req, res) => {
             });
         }
 
-       
+
         await User.findOneAndDelete({
             userId: staffId
         });
-
-    
         await Staff.findByIdAndDelete(staffId);
 
         res.json({
@@ -464,5 +462,50 @@ exports.deleteStaff = async (req, res) => {
             success: false,
             message: error.message
         });
+    }
+};
+
+exports.adminDashboard = async (req, res) => {
+    try {
+
+        const totalDoctors = await doctor.countDocuments();
+
+        const totalDepartments = await dept.countDocuments();
+
+        //const totalPatients = await patient.countDocuments();
+
+        const totalStaff = await staff.countDocuments();
+
+        const totalReceptionists = await staff.countDocuments({
+            role: "Receptionist"
+        });
+
+        const totalNurses = await staff.countDocuments({
+            role: "Nurse"
+        });
+
+        const totalLabTechnicians = await staff.countDocuments({
+            role: "Lab Technician"
+        });
+
+        res.json({
+            totalDoctors,
+            totalDepartments,
+            //totalPatients,
+            totalStaff,
+            totalReceptionists,
+            totalNurses,
+            totalLabTechnicians
+        });
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+
     }
 };

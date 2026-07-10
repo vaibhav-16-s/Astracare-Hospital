@@ -45,6 +45,7 @@ function EditDoc() {
             let result = await response.data;
             if (result) {
                 setRes(result.message);
+                 setTimeout(() => navigate("/admin/managedoctors", { replace: true }), 2000);
             }
         }
         catch (error) {

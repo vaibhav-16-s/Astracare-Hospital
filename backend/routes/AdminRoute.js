@@ -7,7 +7,6 @@ const router = express.Router();
 router.post("/adminregister", AdminController.regAdmin);
 router.post("/staffregister", AdminController.regStaff);
 router.post("/docregister", AdminController.regDoc);
-
 router.post("/deptregister", AdminController.regDept);
 
 
@@ -21,6 +20,7 @@ router.get("/showallstaff", AdminController.showAllStaff);
 router.get("/getdeptdetails/:id", AdminController.getDeptDetails);
 router.get("/getstaffdetails/:id", AdminController.getStaffDetails);
 router.get("/getdocdetails/:id", AdminController.getdocdetails);
+router.get("/admindashboard", AdminController.adminDashboard);
 
 
 //PUT (Update/Edit) 
@@ -33,7 +33,6 @@ router.put("/updatestaff/:id", AdminController.editStaff);
 
 //DELETE (Remove) 
 router.delete("/deletedept/:id", AdminController.Deletedept);
-router.delete("/deletedoc/:id", AdminController.deleteStaff);
 router.delete("/deletestaff/:id", AdminController.deleteStaff);
 router.delete("/deletedoc/:id", AdminController.Deletedoc);
 

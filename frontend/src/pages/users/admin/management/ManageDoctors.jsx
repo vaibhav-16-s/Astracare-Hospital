@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { AdminNav } from '../../../../components/navbar/AdminNav'
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function ManageDoctors() {
@@ -68,74 +68,69 @@ function ManageDoctors() {
                             <tbody>
                                 {
                                     filteredDoctors.slice(0, docLimit).map((doc, index) => (
-                                            <>
-                                                <tr
-                                                    key={doc._id}
-                                                    style={{ cursor: "pointer" }}
-                                                    onClick={() =>
-                                                        setExpandedDoc(
-                                                            expandedDoc === doc._id ? null : doc._id
-                                                        )
-                                                    }
-                                                >
-                                                    <td>{index + 1}</td>
-                                                    <td>{doc.name}</td>
-                                                    <td>{doc.department}</td>
-                                                    <td>{doc.email}</td>
-                                                    <td>{doc.gender}</td>
-                                                    <td>{doc.contact}</td>
-                                                    <td>
-                                                        {new Date(doc.dateOfBirth).toLocaleDateString("en-IN")}
-                                                    </td>
-                                                    <td>{doc.status}</td>
+                                        <React.Fragment key={doc._id}>
+                                            <tr style={{ cursor: "pointer" }} onClick={() =>
+                                                setExpandedDoc(expandedDoc === doc._id ? null : doc._id)
+                                            }>
+                                            
+                                                <td>{index + 1}</td>
+                                                <td>{doc.name}</td>
+                                                <td>{doc.department}</td>
+                                                <td>{doc.email}</td>
+                                                <td>{doc.gender}</td>
+                                                <td>{doc.contact}</td>
+                                                <td>
+                                                    {new Date(doc.dateOfBirth).toLocaleDateString("en-IN")}
+                                                </td>
+                                                <td>{doc.status}</td>
 
-                                                    <td>
-                                                        <Button
-                                                            as={Link}
-                                                            to={`/admin/editdoc/${doc._id}`}
-                                                            variant="warning"
-                                                            size="sm"
-                                                            onClick={(e) => e.stopPropagation()}>
-                                                            Edit
-                                                        </Button>
+                                                <td>
+                                                    <Button
+                                                        as={Link}
+                                                        to={`/admin/editdoc/${doc._id}`}
+                                                        variant="warning"
+                                                        size="sm"
+                                                        onClick={(e) => e.stopPropagation()}>
+                                                        Edit
+                                                    </Button>
 
-                                                        <Button
-                                                            as={Link}
-                                                            to={`/admin/deletedoc/${doc._id}`}
-                                                            variant="danger"
-                                                            size="sm"
-                                                            className="ms-2"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </td>
-                                                </tr>
+                                                    <Button
+                                                        as={Link}
+                                                        to={`/admin/deletedoc/${doc._id}`}
+                                                        variant="danger"
+                                                        size="sm"
+                                                        className="ms-2"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </td>
+                                            </tr>
 
-                                                {
-                                                    expandedDoc === doc._id && (
-                                                        <tr>
-                                                            <td colSpan="9">
-                                                                <div className="p-3 bg-light border rounded">
-                                                                    <h5>Doctor Details</h5>
-                                                                    <p><b>ID:</b> {doc._id}</p>
-                                                                    <p><b>Address:</b> {doc.address}</p>
-                                                                    <p><b>Qualification:</b> {doc.qualification}</p>
-                                                                    <p>
-                                                                        <b>Created At:</b>{" "}
-                                                                        {new Date(doc.createdAt).toLocaleString("en-IN")}
-                                                                    </p>
-                                                                    <p>
-                                                                        <b>Updated At:</b>{" "}
-                                                                        {new Date(doc.updatedAt).toLocaleString("en-IN")}
-                                                                    </p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    )
-                                                }
-                                            </>
-                                        ))
+                                            {
+                                                expandedDoc === doc._id && (
+                                                    <tr>
+                                                        <td colSpan="9">
+                                                            <div className="p-3 bg-light border rounded">
+                                                                <h5>Doctor Details</h5>
+                                                                <p><b>ID:</b> {doc._id}</p>
+                                                                <p><b>Address:</b> {doc.address}</p>
+                                                                <p><b>Qualification:</b> {doc.qualification}</p>
+                                                                <p>
+                                                                    <b>Created At:</b>{" "}
+                                                                    {new Date(doc.createdAt).toLocaleString("en-IN")}
+                                                                </p>
+                                                                <p>
+                                                                    <b>Updated At:</b>{" "}
+                                                                    {new Date(doc.updatedAt).toLocaleString("en-IN")}
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            }
+                                        </React.Fragment>
+                                    ))
                                 }
                             </tbody>
                         </Table>

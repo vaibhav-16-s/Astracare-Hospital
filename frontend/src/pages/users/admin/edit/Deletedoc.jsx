@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
-
 function Deletedoc() {
 
     const [name, setName] = useState("");
