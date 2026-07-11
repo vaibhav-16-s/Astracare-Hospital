@@ -26,6 +26,7 @@ import DeleteStaff from "./pages/users/admin/edit/DeleteStaff";
 import EditStaff from "./pages/users/admin/edit/EditStaff";
 import BookAppointment from "./pages/users/patient/BookAppointmentPatient";
 import BookAppointmentPatient from "./pages/users/patient/BookAppointmentPatient";
+import EditPatient from "./pages/users/admin/edit/EditPatient";
 
 function App() {
   return (
@@ -55,6 +56,8 @@ function App() {
           <Route path="/admin/editdept/:id" element={<EditDept />} />
           <Route path="/admin/deleteSatff/:id" element={<DeleteStaff />} />
           <Route path="/admin/editstaff/:id" element={<EditStaff />} />
+          <Route path="/admin/editpatient/:id" element={<EditPatient />} />
+
 
 
         //Doctor

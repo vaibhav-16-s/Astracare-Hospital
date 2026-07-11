@@ -1,5 +1,6 @@
 const admin = require("../../models/Admin");
 const dept = require("../../models/Dept");
+const patient = require("../../models/Patient");
 const doctor = require("../../models/Doctor");
 const staff = require("../../models/Staff");
 const user = require("../../models/User");
@@ -384,12 +385,12 @@ exports.getStaffDetails = async (req, res) => {
         });
 
     }
-    catch(error) {
+    catch (error) {
         console.log(error);
 
         res.status(500).json({
-            success:false,
-            message:error.message
+            success: false,
+            message: error.message
         });
     }
 };
@@ -507,5 +508,86 @@ exports.adminDashboard = async (req, res) => {
             message: error.message
         });
 
+    }
+};
+
+
+exports.showAllPatients = async (req, res) => {
+    try {
+        const patients = await patient.find().sort({ createdAt: -1 });
+        res.json(patients);
+    }
+    catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+};
+
+exports.getPatientById = async (req, res) => {
+    try {
+
+        const patientid = await patient.findById(req.params.id);
+
+        if (!patientid) {
+
+            return res.status(404).json({
+                message: "Patient not found"
+            });
+
+        }
+
+        res.json(patient);
+
+    }
+
+    catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
+    }
+
+}
+
+exports.updatePatient = async (req, res) => {
+    try {
+
+        const id = req.params.id;
+        const nm = req.body.name;
+        const em = req.body.email;
+        const ct = req.body.contact;
+        const add = req.body.addr;
+        const gd = req.body.gender;
+        const dob = req.body.dob;
+        const bg = req.body.bloodGroup;
+
+        const filter = { _id: id };
+
+        const update = {
+            name: nm,
+            email: em,
+            contact: ct,
+            address: add,
+            gender: gd,
+            dateOfBirth: dob,
+            bloodGroup: bg
+        };
+
+        await Patient.findOneAndUpdate(filter, update, {
+            returnDocument: "after"
+        });
+
+        res.json({
+            message: "Patient updated successfully"
+        });
+
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            message: "Failed to update patient"
+        });
     }
 };

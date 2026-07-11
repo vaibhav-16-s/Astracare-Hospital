@@ -1,8 +1,51 @@
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminNav } from "../../../../components/navbar/AdminNav";
+import { Table, Button } from "react-bootstrap";
 
 function ManagePatients() {
+    const navigate = useNavigate();
+
+    const [patientData, setPatientData] = useState([]);
+    const [search, setSearch] = useState("");
+    const [patientLimit, setPatientLimit] = useState(10);
+    const [expandedPatient, setExpandedPatient] = useState(null);
+
+    useEffect(() => {
+        fetchPatientDetails();
+    }, []);
+
+    const fetchPatientDetails = async () => {
+
+        try {
+
+            const response = await axios.get(
+                "http://localhost:5000/admin/showallpatients"
+            );
+
+            setPatientData(response.data);
+
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+    }
+
+    const filteredPatients = patientData.filter((patient) => {
+
+        return (
+
+            patient.name.toLowerCase().includes(search.toLowerCase()) ||
+
+            patient.email.toLowerCase().includes(search.toLowerCase()) ||
+
+            patient.contact.includes(search)
+
+        );
+
+    });
     return (
         <>
             <div className="header">
@@ -24,11 +67,10 @@ function ManagePatients() {
                         <input
                             type="text"
                             placeholder="Search by Name / Email / Contact"
-                            className="mr-sm-2"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
-                        <Button variant="warning" size="sm">
-                            Search
-                        </Button>
+
                     </div>
 
                     <br />
@@ -46,58 +88,145 @@ function ManagePatients() {
                                     <th>Date of Birth</th>
                                     <th>Blood Group</th>
                                     <th>Edit</th>
-                                    
+
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Patient Name</td>
-                                    <td>patient@email.com</td>
-                                    <td>Male</td>
-                                    <td>9876543210</td>
-                                    <td>Kota</td>
-                                    <td>01/01/2000</td>
-                                    <td>O+</td>
 
-                                    <td>
-                                        <Button variant="warning" size="sm">
-                                            Edit
-                                        </Button>
-                                    
+                                {
 
-                                   
-                                        <Button variant="danger" size="sm">
-                                            Delete
-                                        </Button>
-                                    </td>
-                                </tr>
+                                    filteredPatients
+                                        .slice(0, patientLimit)
+                                        .map((patient, index) => (
+
+                                            <React.Fragment key={patient._id}>
+
+                                                <tr
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => setExpandedPatient(
+                                                        expandedPatient === patient._id
+                                                            ? null
+                                                            : patient._id
+                                                    )}
+                                                >
+
+                                                    <td>{index + 1}</td>
+
+                                                    <td>{patient.name}</td>
+
+                                                    <td>{patient.email}</td>
+
+                                                    <td>{patient.gender}</td>
+
+                                                    <td>{patient.contact}</td>
+
+                                                    <td>{patient.address}</td>
+
+                                                    <td>
+                                                        {new Date(patient.dateOfBirth).toLocaleDateString("en-IN")}
+                                                    </td>
+
+                                                    <td>{patient.bloodGroup}</td>
+
+                                                    <td>
+
+                                                        <Button
+                                                            as={Link}
+                                                            to={`/admin/editpatient/${patient._id}`}
+                                                            variant="warning"
+                                                            size="sm"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                        >
+
+                                                            Edit
+
+                                                        </Button>
+
+
+                                                    </td>
+
+                                                </tr>
+
+                                                {
+                                                    expandedPatient === patient._id && (
+
+                                                        <tr>
+
+                                                            <td colSpan="9">
+
+                                                                <div className="p-3 bg-light border rounded">
+
+                                                                    <h5>Patient Details</h5>
+
+                                                                    <p>
+                                                                        <b>ID:</b> {patient._id}
+                                                                    </p>
+
+                                                                    <p>
+                                                                        <b>Role:</b> {patient.role}
+                                                                    </p>
+
+                                                                    <p>
+                                                                        <b>Created:</b>{" "}
+                                                                        {new Date(patient.createdAt).toLocaleString("en-IN")}
+                                                                    </p>
+
+                                                                    <p>
+                                                                        <b>Updated:</b>{" "}
+                                                                        {new Date(patient.updatedAt).toLocaleString("en-IN")}
+                                                                    </p>
+
+                                                                </div>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    )
+
+                                                }
+
+                                            </React.Fragment>
+
+                                        ))
+
+                                }
+
                             </tbody>
                         </Table>
                     </div>
-                     {/* 
-    TODO: View More Logic
 
-    1. Create state:
-       const [receptionLimit, setReceptionLimit] = useState(10);
+                    <div className="text-center mt-3">
 
-    2. Fetch all receptionists from backend.
+                        {patientLimit < filteredPatients.length && (
 
-    3. Display only:
-       receptionists.slice(0, receptionLimit)
+                            <Button
+                                variant="secondary"
+                                onClick={() => setPatientLimit(prev => prev + 10)}
+                            >
 
-    4. On "View More" button click:
-       setReceptionLimit(prev => prev + 10);
-
-    5. Hide button when:
-       receptionLimit >= receptionists.length
-*/}
-                        <div className="text-center mt-3">
-                            <Button variant="secondary">
                                 View More
+
                             </Button>
-                        </div>
+
+                        )}
+
+                        {patientLimit > 10 && (
+
+                            <Button
+                                variant="outline-secondary"
+                                className="ms-2"
+                                onClick={() => setPatientLimit(10)}
+                            >
+
+                                View Less
+
+                            </Button>
+
+                        )}
+
+                    </div>
 
                 </div>
             </div>
