@@ -24,6 +24,8 @@ import EditDept from "./pages/users/admin/edit/EditDept";
 import DeleteDept from "./pages/users/admin/edit/DeleteDept";
 import DeleteStaff from "./pages/users/admin/edit/DeleteStaff";
 import EditStaff from "./pages/users/admin/edit/EditStaff";
+import BookAppointment from "./pages/users/patient/BookAppointmentPatient";
+import BookAppointmentPatient from "./pages/users/patient/BookAppointmentPatient";
 
 function App() {
   return (
@@ -54,6 +56,7 @@ function App() {
           <Route path="/admin/deleteSatff/:id" element={<DeleteStaff />} />
           <Route path="/admin/editstaff/:id" element={<EditStaff />} />
 
+
         //Doctor
           <Route path="/doc/home" element={<DoctorHome />} />
 
@@ -61,10 +64,12 @@ function App() {
         //Patient
           <Route path="/patient/home" element={<PatientHome />} />
           <Route path="/patient/register" element={<PatientReg />} />
+          <Route path='/patient/bookappointment' element={<BookAppointmentPatient/>}/>
 
 
         //Staff
           <Route path="/staff/home" element={<StaffHome />} />
+          {/* <Route path='/staff/bookappointment/:id' element={<BookAppointmentStaff/>}/> */}
 
         </Routes>
       </Router>

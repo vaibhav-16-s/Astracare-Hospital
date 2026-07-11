@@ -22,11 +22,6 @@ const appointmentSchema = new mongoose.Schema({
         required:true
     },
 
-    department:{
-        type:String,
-        required:true
-    },
-
     reason:{
         type:String
     },
