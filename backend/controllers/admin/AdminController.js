@@ -473,7 +473,7 @@ exports.adminDashboard = async (req, res) => {
 
         const totalDepartments = await dept.countDocuments();
 
-        //const totalPatients = await patient.countDocuments();
+        const totalPatients = await patient.countDocuments();
 
         const totalStaff = await staff.countDocuments();
 
@@ -492,7 +492,7 @@ exports.adminDashboard = async (req, res) => {
         res.json({
             totalDoctors,
             totalDepartments,
-            //totalPatients,
+            totalPatients,
             totalStaff,
             totalReceptionists,
             totalNurses,
@@ -537,7 +537,7 @@ exports.getPatientById = async (req, res) => {
 
         }
 
-        res.json(patient);
+        res.json(patientid);
 
     }
 
@@ -550,41 +550,40 @@ exports.getPatientById = async (req, res) => {
     }
 
 }
-
 exports.updatePatient = async (req, res) => {
     try {
 
         const id = req.params.id;
-        const nm = req.body.name;
-        const em = req.body.email;
-        const ct = req.body.contact;
-        const add = req.body.addr;
-        const gd = req.body.gender;
-        const dob = req.body.dob;
-        const bg = req.body.bloodGroup;
-
-        const filter = { _id: id };
 
         const update = {
-            name: nm,
-            email: em,
-            contact: ct,
-            address: add,
-            gender: gd,
-            dateOfBirth: dob,
-            bloodGroup: bg
+            name: req.body.name,
+            email: req.body.email,
+            contact: req.body.contact,
+            address: req.body.address,
+            gender: req.body.gender,
+            dateOfBirth: req.body.dateOfBirth,
+            bloodGroup: req.body.bloodGroup
         };
 
-        await Patient.findOneAndUpdate(filter, update, {
-            returnDocument: "after"
-        });
+        const result = await patient.findByIdAndUpdate(
+            id,
+            update,
+          { returnDocument: 'after'}
+        );
+
+        console.log(result);
+
+        if (!result) {
+            return res.json({
+                message: "Patient not found"
+            });
+        }
 
         res.json({
             message: "Patient updated successfully"
         });
 
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
         res.json({
             message: "Failed to update patient"

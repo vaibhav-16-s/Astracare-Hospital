@@ -23,19 +23,19 @@ function EditPatient() {
 
     const getPatientDetails = async () => {
         try {
-            
+
             const response = await axios.get(
                 `http://localhost:5000/admin/getpatientdetails/${id}`
             );
 
             let result = response.data;
 
-            setName(result.name);
-            setEmail(result.email);
-            setContact(result.contact);
-            setAddr(result.address);
-            setGender(result.gender);
-            setBloodGroup(result.bloodGroup);
+            setName(result.name || "");
+            setEmail(result.email || "");
+            setContact(result.contact || "");
+            setAddr(result.address || "");
+            setGender(result.gender || "");
+            setBloodGroup(result.bloodGroup || "");
             setDOB(result.dateOfBirth ? result.dateOfBirth.split("T")[0] : "");
 
         }
@@ -48,18 +48,18 @@ function EditPatient() {
 
         try {
 
-           const response = await axios.put(
-    `http://localhost:5000/admin/updatepatient/${id}`,
-    {
-        name,
-        email,
-        contact,
-        address: addr,
-        gender,
-        bloodGroup,
-        dateOfBirth: dob
-    }
-);
+            const response = await axios.put(
+                `http://localhost:5000/admin/updatepatient/${id}`,
+                {
+                    name,
+                    email,
+                    contact,
+                    address: addr,
+                    gender,
+                    bloodGroup,
+                    dateOfBirth: dob
+                }
+            );
 
             let result = response.data;
 

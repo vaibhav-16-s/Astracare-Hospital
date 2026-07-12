@@ -1,5 +1,11 @@
 import React from 'react'
 import { DoctorNav } from '../../../components/navbar/DoctorNav'
+import { Card } from 'react-bootstrap';
+import Carousel from 'react-bootstrap/Carousel';
+import slide1 from "../../../assets/docCarousel/car2_s1.jpeg";
+import slide2 from "../../../assets/docCarousel/car2_s2.jpeg";
+import slide3 from "../../../assets/docCarousel/car2_s3.jpeg";
+import slide4 from "../../../assets/docCarousel/car2_s4.jpeg";
 
 function DoctorHome() {
   return (
@@ -45,16 +51,6 @@ function DoctorHome() {
                 />
 
               </Carousel.Item>
-
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src={slide5}
-                  alt="Third slide"
-                />
-
-              </Carousel.Item>
-
             </Carousel>
           </Card>
         </div>

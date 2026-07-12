@@ -1,13 +1,17 @@
 import React from 'react'
 import { StaffNav } from '../../../components/navbar/StaffNav'
+import slide1 from "../../../assets/staffCarousel/car3_s1.jpeg";
+import slide2 from "../../../assets/staffCarousel/car3_s2.jpeg";
+import slide3 from "../../../assets/staffCarousel/car3_s3.jpeg";
+import slide4 from "../../../assets/staffCarousel/car3_s4.jpeg";
+import { Carousel } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 function StaffHome() {
   return (
     <>
       <div className="header"><StaffNav /></div>
       <div className='body'><h2>Satff dashBoard</h2>
-
-
 
 
 
@@ -54,14 +58,7 @@ function StaffHome() {
 
               </Carousel.Item>
 
-              <Carousel.Item>
-                <img
-                  className="d-block w-100"
-                  src={slide5}
-                  alt="Third slide"
-                />
-
-              </Carousel.Item>
+             
 
             </Carousel>
           </Card>
