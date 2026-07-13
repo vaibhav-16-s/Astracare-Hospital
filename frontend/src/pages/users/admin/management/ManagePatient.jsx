@@ -72,7 +72,7 @@ function ManagePatients() {
                         />
 
                     </div>
-
+                        
                     <br />
 
                     <div>
@@ -84,7 +84,7 @@ function ManagePatients() {
                                     <th>Email</th>
                                     <th>Gender</th>
                                     <th>Contact</th>
-                                    <th>Address</th>
+
                                     <th>Date of Birth</th>
                                     <th>Blood Group</th>
                                     <th>Edit</th>
@@ -104,12 +104,8 @@ function ManagePatients() {
 
                                                 <tr
                                                     style={{ cursor: "pointer" }}
-                                                    onClick={() => setExpandedPatient(
-                                                        expandedPatient === patient._id
-                                                            ? null
-                                                            : patient._id
-                                                    )}
-                                                >
+                                                    onClick={() => setExpandedPatient(expandedPatient === patient._id ? null : patient._id)
+                                                    }>
 
                                                     <td>{index + 1}</td>
 
@@ -121,7 +117,7 @@ function ManagePatients() {
 
                                                     <td>{patient.contact}</td>
 
-                                                    <td>{patient.address}</td>
+
 
                                                     <td>
                                                         {new Date(patient.dateOfBirth).toLocaleDateString("en-IN")}
@@ -132,10 +128,8 @@ function ManagePatients() {
                                                     <td>
 
                                                         <Button
-                                                            as={Link}
-                                                            to={`/admin/editpatient/${patient._id}`}
-                                                            variant="warning"
-                                                            size="sm"
+                                                            as={Link} to={`/admin/editpatient/${patient._id}`}
+                                                            variant="warning" size="sm"
                                                             onClick={(e) => e.stopPropagation()}
                                                         >
 
@@ -150,11 +144,8 @@ function ManagePatients() {
 
                                                 {
                                                     expandedPatient === patient._id && (
-
                                                         <tr>
-
                                                             <td colSpan="9">
-
                                                                 <div className="p-3 bg-light border rounded">
 
                                                                     <h5>Patient Details</h5>
@@ -168,6 +159,50 @@ function ManagePatients() {
                                                                     </p>
 
                                                                     <p>
+                                                                        <b>Address:</b> {patient.address}
+                                                                    </p>
+
+                                                                    <div className="p-3 bg-light border rounded">
+
+                                                                        <h5>Disease History</h5>
+
+                                                                        {
+                                                                            patient.diseaseHistory.length > 0 ? (
+
+                                                                                <Table bordered striped size="sm">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Disease</th>
+                                                                                            <th>Diagnosed On</th>
+                                                                                            <th>Recovered On</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        {
+                                                                                            patient.diseaseHistory.map((history, index) => (
+
+                                                                                                <tr key={index}>
+
+                                                                                                    <td>{history.diseaseName}</td>
+
+                                                                                                    <td>
+                                                                                                        {new Date(history.diagnosedOn).toLocaleDateString("en-IN")}
+                                                                                                    </td>
+
+                                                                                                    <td>
+                                                                                                        {
+                                                                                                            history.recoveredOn ? new Date(history.recoveredOn).toLocaleDateString("en-IN") : "Ongoing"
+                                                                                                        }
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            ))
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </Table>
+                                                                            ) : (<p>No disease history available.</p>)
+                                                                        }
+                                                                    </div>
+                                                                    <p>
                                                                         <b>Created:</b>{" "}
                                                                         {new Date(patient.createdAt).toLocaleString("en-IN")}
                                                                     </p>
@@ -176,58 +211,30 @@ function ManagePatients() {
                                                                         <b>Updated:</b>{" "}
                                                                         {new Date(patient.updatedAt).toLocaleString("en-IN")}
                                                                     </p>
-
                                                                 </div>
-
                                                             </td>
-
                                                         </tr>
-
                                                     )
-
                                                 }
-
                                             </React.Fragment>
-
                                         ))
-
                                 }
-
                             </tbody>
                         </Table>
                     </div>
 
                     <div className="text-center mt-3">
-
                         {patientLimit < filteredPatients.length && (
-
-                            <Button
-                                variant="secondary"
-                                onClick={() => setPatientLimit(prev => prev + 10)}
-                            >
-
+                            <Button variant="secondary" onClick={() => setPatientLimit(prev => prev + 10)}>
                                 View More
-
                             </Button>
-
                         )}
-
                         {patientLimit > 10 && (
-
-                            <Button
-                                variant="outline-secondary"
-                                className="ms-2"
-                                onClick={() => setPatientLimit(10)}
-                            >
-
+                            <Button variant="outline-secondary" className="ms-2" onClick={() => setPatientLimit(10)}>
                                 View Less
-
                             </Button>
-
                         )}
-
                     </div>
-
                 </div>
             </div>
 

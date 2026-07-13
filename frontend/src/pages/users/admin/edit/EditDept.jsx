@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AdminNav } from "../../../../components/navbar/AdminNav";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function EditDept() {
 
@@ -10,6 +10,7 @@ function EditDept() {
     const [headDoctorEmail, setHeadDoctorEmail] = useState("");
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
+    const navigate=useNavigate();
 
     const [res, setRes] = useState("");
 
@@ -45,7 +46,6 @@ function EditDept() {
     };
 
 
-
     const DeptUpdate = async () => {
         try {
             const response = await axios.put(
@@ -53,7 +53,7 @@ function EditDept() {
                 {id,name,description,headDoctorEmail,location,status}
             );
             setRes(response.data.message);
-             setTimeout(() => navigate("/admin/managedept", { replace: true }), 2000);
+            setTimeout(() => navigate("/admin/managedept", { replace: true }), 2000);
         }
         catch(error){
             console.log(error);

@@ -245,7 +245,7 @@ exports.Deletedoc = async (req, res) => {
     try {
         const id = req.params.id;
         const result = await doctor.deleteOne({ _id: id }).then(function () {
-            user.deleteOne({ _id: id }).then(function () {
+             user.deleteOne({ userId: id }).then(function () {
                 res.json({ msg: "Data and Login deleted Successfully" })
             }).catch(function (e) {
                 res.json({ msg: "data deleted but login deltion failed" });
@@ -370,9 +370,9 @@ exports.getStaffDetails = async (req, res) => {
     try {
         const staffId = req.params.id;
 
-        const staff = await Staff.findById(staffId);
+        const Staff = await staff.findById(staffId);
 
-        if (!staff) {
+        if (!Staff) {
             return res.status(404).json({
                 success: false,
                 message: "Staff not found"
@@ -381,7 +381,7 @@ exports.getStaffDetails = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            data: staff
+            data: Staff
         });
 
     }
@@ -398,7 +398,7 @@ exports.getStaffDetails = async (req, res) => {
 exports.editStaff = async (req, res) => {
     try {
         const staffId = req.params.id;
-        const updatedStaff = await Staff.findByIdAndUpdate(staffId,
+        const updatedStaff = await staff.findByIdAndUpdate(staffId,
             {
                 name: req.body.name,
                 email: req.body.email,
@@ -418,7 +418,7 @@ exports.editStaff = async (req, res) => {
                 message: "Staff not found"
             });
         }
-        await User.findOneAndUpdate({ userId: staffId }, { email: req.body.email, role: req.body.role });
+        await user.findOneAndUpdate({ userId: staffId }, { email: req.body.email, role: req.body.role });
         res.status(200).json({
             success: true,
             message: "Staff Updated Successfully",
@@ -435,35 +435,28 @@ exports.editStaff = async (req, res) => {
 };
 
 exports.deleteStaff = async (req, res) => {
+
     try {
-        const staffId = req.params.id
-        const staffData = await staff.findById(staffId);
 
-        if (!staffData) {
-            return res.status(404).json({
-                success: false,
-                message: "Staff not found"
+        const id = req.params.id;
+        const result = await staff.deleteOne({ _id: id }).then(function () {
+            user.deleteOne({ userId: id }).then(function () {
+                res.json({ msg: "Data and Login deleted Successfully" })
+            }).catch(function (e) {
+                res.json({ msg: "data deleted but login deltion failed" });
             });
-        }
-
-
-        await User.findOneAndDelete({
-            userId: staffId
-        });
-        await Staff.findByIdAndDelete(staffId);
-
-        res.json({
-            success: true,
-            message: "Staff Deleted Successfully"
         });
     }
     catch (error) {
+
         console.log(error);
-        res.status(500).json({
-            success: false,
-            message: error.message
+
+        res.json({
+            msg: "Failed to delete staff"
         });
+
     }
+
 };
 
 exports.adminDashboard = async (req, res) => {

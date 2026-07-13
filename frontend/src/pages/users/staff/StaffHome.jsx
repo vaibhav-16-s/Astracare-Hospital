@@ -11,8 +11,7 @@ function StaffHome() {
   return (
     <>
       <div className="header"><StaffNav /></div>
-      <div className='body'><h2>Satff dashBoard</h2>
-
+      <div className='body'><h2>Satff DashBoard</h2>
 
 
 

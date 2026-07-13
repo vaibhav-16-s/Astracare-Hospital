@@ -123,10 +123,7 @@ function ManageStaff() {
                                                     }
                                                 </p>
 
-                                                <p>
-                                                    <b>Blood Group:</b>
-                                                    {staff.bloodGroup || "N/A"}
-                                                </p>
+                                               
 
                                                 <p>
                                                     <b>Created At:</b>

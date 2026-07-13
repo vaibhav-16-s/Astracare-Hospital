@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { HomeNav } from "../../components/navbar/HomeNav";
 import axios from 'axios';
+import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const LoginUser = async () => {
         const response = await axios.post('http://localhost:5000/api/login', { email, pass });
         let result = response.data;
@@ -34,11 +35,44 @@ function Login() {
     return (
         <>
             <div className='header'> <HomeNav /></div>
-            <div className='body'>
-                <h3>USER Login</h3>
-                <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
-                <p>Password:<input type="text" value={pass} onChange={(e) => setPass(e.target.value)} /></p>
-                <p><button onClick={LoginUser}>Login</button></p>
+            <div
+                className="body d-flex justify-content-center align-items-center"
+                style={{ minHeight: "80vh" }}>
+                <Card style={{ width: "26rem" }}>
+                    <Card.Body>
+                        <Card.Title className="text-center mb-4">
+                            User Login
+                        </Card.Title>
+                        <div className="mb-3">
+                            <label className="form-label">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter email"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                value={pass}
+                                onChange={(e) => setPass(e.target.value)}
+                                placeholder="Enter password" />
+                        </div>
+
+                        <button
+                            className="btn btn-primary w-100"
+                            onClick={LoginUser}
+                        >
+                            Login
+                        </button>
+
+                    </Card.Body>
+
+                </Card>
             </div>
             <div className='footer'> <div>© Astracare</div>
                 <div><h2>About</h2>

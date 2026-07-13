@@ -13,9 +13,9 @@ export const StaffNav = () => {
             height="30"
             className="me-2" />AstraCare</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Dashboard</Nav.Link>
-            <Nav.Link href="/login">##</Nav.Link>
-            <Nav.Link href="#">##</Nav.Link>
+            <Nav.Link href="/staff/home">Dashboard</Nav.Link>
+            <Nav.Link href="/patient/register">Register Patient</Nav.Link>
+            <Nav.Link href="#">Book Appointment</Nav.Link>
             <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Update Password</NavDropdown.Item>
               

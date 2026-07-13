@@ -54,7 +54,7 @@ function App() {
           <Route path="/admin/deptregister" element={<DeptReg />} />
           <Route path="/admin/deletedept/:id" element={<DeleteDept />} />
           <Route path="/admin/editdept/:id" element={<EditDept />} />
-          <Route path="/admin/deleteSatff/:id" element={<DeleteStaff />} />
+          <Route path="/admin/deletestaff/:id" element={<DeleteStaff />} />
           <Route path="/admin/editstaff/:id" element={<EditStaff />} />
           <Route path="/admin/editpatient/:id" element={<EditPatient />} />
 
