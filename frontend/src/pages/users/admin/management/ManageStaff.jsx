@@ -115,30 +115,15 @@ function ManageStaff() {
                                                 </p>
 
                                                 <p>
+                                                    <b>Department:</b> {staff.dept}
+                                                </p>
+
+                                                <p>
                                                     <b>Date Of Birth:</b>
                                                     {
                                                         new Date(
                                                             staff.dateOfBirth
                                                         ).toLocaleDateString("en-IN")
-                                                    }
-                                                </p>
-
-                                               
-
-                                                <p>
-                                                    <b>Created At:</b>
-                                                    {
-                                                        new Date(
-                                                            staff.createdAt
-                                                        ).toLocaleString("en-IN")
-                                                    }
-                                                </p>
-                                                <p>
-                                                    <b>Updated At:</b>
-                                                    {
-                                                        new Date(
-                                                            staff.updatedAt
-                                                        ).toLocaleString("en-IN")
                                                     }
                                                 </p>
                                             </div>

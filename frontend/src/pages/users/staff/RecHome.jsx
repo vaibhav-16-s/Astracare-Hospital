@@ -7,11 +7,13 @@ import slide4 from "../../../assets/staffCarousel/car3_s4.jpeg";
 import { Carousel } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
 
-function StaffHome() {
+function RecHome() {
   return (
     <>
       <div className="header"><StaffNav /></div>
       <div className='body'><h2>Satff DashBoard</h2>
+
+
 
 
 
@@ -77,4 +79,4 @@ function StaffHome() {
   )
 }
 
-export default StaffHome;
+export default RecHome;

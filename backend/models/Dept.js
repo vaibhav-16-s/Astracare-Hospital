@@ -15,12 +15,20 @@ const departmentSchema = new mongoose.Schema({
         trim: true
     },
 
-    headDoctor: {
+    headEmployee: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "doctor",
-        default: null
+        required: true,
+        refPath: "headEmployeeModel"
     },
 
+    headEmployeeModel: {
+        type: String,
+        required: true,
+        enum: [
+            "Doctor",
+            "Staff"
+        ]
+    },
     location: {
         type: String,
         default: ""

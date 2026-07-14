@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 
 import axios from 'axios';
 import { PatientNav } from '../../components/navbar/PatientNav';
@@ -19,8 +19,8 @@ function PatientReg() {
     const [cPass, setCpass] = useState("");
 
     const PatientRegister = async (req, res) => {
-        const response=await axios.post("http://localhost:5000/patient/register", 
-            {name,email,contact,gender,address: addr,dateOfBirth: dob,bloodGroup: bGroup,diseaseHistory,password: pass});
+        const response = await axios.post("http://localhost:5000/patient/register",
+            { name, email, contact, gender, address: addr, dateOfBirth: dob, bloodGroup: bGroup, diseaseHistory, password: pass });
 
         const result = await response.data;
         console.log("doc reg response :- ", result);
@@ -39,14 +39,14 @@ function PatientReg() {
 
         }
     }
-     const addDisease = () => {
+    const addDisease = () => {
 
         if (!diseaseName || !diagnosedOn) {
             alert("Disease Name and Diagnosed Date are required");
             return;
         }
 
-        const disease = {diseaseName,diagnosedOn,recoveredOn};
+        const disease = { diseaseName, diagnosedOn, recoveredOn };
 
         setDiseaseHistory([...diseaseHistory, disease]);
 
@@ -57,7 +57,11 @@ function PatientReg() {
     return (
         <>
             <div className="header"><PatientNav /></div>
-            <div className="body"><h2>patient register</h2>
+            <div className="body"><h2>Patient Registeration</h2>
+                <p>Register a new patient to AstraCare by entering their personal details and contact information.
+                    Once registered, the patient profile will be created and can be used for appointment booking,
+                    doctor consultations, and maintaining their medical records securely within the hospital system.
+                </p>
                 <p>Name: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></p>
                 <p>Email: <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
                 <p>Gender: <input type="text" value={gender} onChange={(e) => setGender(e.target.value)} /></p>

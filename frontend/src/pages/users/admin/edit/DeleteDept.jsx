@@ -6,12 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 function DeleteDept() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [headDoctorEmail, setHeadDoctorEmail] = useState("");
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
 
     const [res, setRes] = useState("");
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -34,20 +33,17 @@ function DeleteDept() {
             setLocation(result.location);
             setStatus(result.status);
 
-            // because headDoctor is populated
-            if (result.headDoctor) {
-                setHeadDoctorEmail(result.headDoctor.email);
-            }
+
 
         } catch (error) {
             console.log(error);
         }
     };
 
-    const DeptDelete = async() => {
+    const DeptDelete = async () => {
         try {
             if (!window.confirm("Are you sure you want to delete this Department? This action cannot be undone.")) return;
-             const response = await axios.delete(`http://localhost:5000/admin/deletedept/${id}`);
+            const response = await axios.delete(`http://localhost:5000/admin/deletedept/${id}`);
             if (response.data) {
                 setRes(response.data.msg);
                 setTimeout(() => navigate("/admin/managedept", { replace: true }), 2000);

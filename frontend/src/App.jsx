@@ -9,7 +9,6 @@ import StaffReg from "./pages/users/admin/reg/StaffReg";
 import { AdminHome } from "./pages/users/admin/AdminHome";
 import PatientHome from "./pages/users/patient/PatientHome";
 import DoctorHome from "./pages/users/doctor/DoctorHome";
-import StaffHome from "./pages/users/staff/StaffHome";
 import AdminReg from "./pages/users/admin/reg/AdminReg";
 import ManageDoctors from "./pages/users/admin/management/ManageDoctors";
 import ManageStaff from "./pages/users/admin/management/ManageStaff";
@@ -27,6 +26,9 @@ import EditStaff from "./pages/users/admin/edit/EditStaff";
 import BookAppointment from "./pages/users/patient/BookAppointmentPatient";
 import BookAppointmentPatient from "./pages/users/patient/BookAppointmentPatient";
 import EditPatient from "./pages/users/admin/edit/EditPatient";
+import RecHome from "./pages/users/staff/RecHome";
+import ShiftReg from "./pages/users/admin/reg/ShiftReg";
+import EditShift from "./pages/users/admin/edit/EditShift";
 
 function App() {
   return (
@@ -57,6 +59,9 @@ function App() {
           <Route path="/admin/deletestaff/:id" element={<DeleteStaff />} />
           <Route path="/admin/editstaff/:id" element={<EditStaff />} />
           <Route path="/admin/editpatient/:id" element={<EditPatient />} />
+          <Route path='/admin/shiftreg' element={<ShiftReg/>}/>
+          <Route path='/admin/updateShift/:id' element={<EditShift/>}/>
+
 
 
 
@@ -71,7 +76,7 @@ function App() {
 
 
         //Staff
-          <Route path="/staff/home" element={<StaffHome />} />
+          <Route path="/Rec/RecHome" element={<RecHome />} />
           {/* <Route path='/staff/bookappointment/:id' element={<BookAppointmentStaff/>}/> */}
 
         </Routes>

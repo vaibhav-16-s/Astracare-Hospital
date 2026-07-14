@@ -2,38 +2,67 @@ const mongoose = require("mongoose");
 
 const shiftSchema = new mongoose.Schema({
 
-    staffId: {
+    empId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
+        required:true,
     },
 
-    date: {
-        type: Date,
-        required: true
-    },
+    empModel:{
+    type:String,
+    required:true,
+    enum:[
+        "Doctor",
+        "Staff"
+    ]
+},
 
-    startTime: {
-        type: String
-    },
-
-    endTime: {
-        type: String
-    },
-
-    status: {
-        type: String,
-        enum: [
-            "Scheduled",
-            "Off",
-            "Leave"
+    empRole:{
+        type:String,
+        enum:[
+            "Doctor",
+            "Receptionist",
+            "Nurse",
+            "Lab Technician"
         ],
-        default: "Scheduled"
-    }
+        required:true
+    },
 
-}, {
-    timestamps: true
+    weekStart:{
+        type:Date,
+        required:true
+    },
+
+    schedule:[
+        {
+            day:{
+                type:String,
+                required:true
+            },
+
+            startTime:{
+                type:String
+            },
+
+            endTime:{
+                type:String
+            },
+
+            status:{
+                type:String,
+                enum:[
+                    "Scheduled",
+                    "Off",
+                    "Leave"
+                ],
+                default:"Scheduled"
+            }
+        }
+    ]
+
+},
+{
+    timestamps:true
 });
 
 
-module.exports = mongoose.model("Shift", shiftSchema);
+module.exports = mongoose.model("shift", shiftSchema);

@@ -8,6 +8,10 @@ router.post("/adminregister", AdminController.regAdmin);
 router.post("/staffregister", AdminController.regStaff);
 router.post("/docregister", AdminController.regDoc);
 router.post("/deptregister", AdminController.regDept);
+router.post(
+    "/assignweeklyshift",
+    AdminController.assignWeeklyShift
+);
 
 
 
@@ -22,7 +26,20 @@ router.get("/getstaffdetails/:id", AdminController.getStaffDetails);
 router.get("/getdocdetails/:id", AdminController.getdocdetails);
 router.get("/admindashboard", AdminController.adminDashboard);
 router.get("/showallpatients", AdminController.showAllPatients);
-router.get("/getpatientdetails/:id",AdminController.getPatientById);
+router.get("/getpatientdetails/:id", AdminController.getPatientById);
+router.get("/allshifts", AdminController.getAllShifts);
+router.get("/employees/:role/:department", AdminController.getEmployeesByRole);
+router.get("/getshift/:id", AdminController.getShiftById);
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -33,7 +50,9 @@ router.get("/getpatientdetails/:id",AdminController.getPatientById);
 router.put("/updatedoc/:id", AdminController.updatedoc);
 router.put("/updatedept/:id", AdminController.updateDept);
 router.put("/updatestaff/:id", AdminController.editStaff);
-router.put("/updatepatient/:id",AdminController.updatePatient);
+router.put("/updatepatient/:id", AdminController.updatePatient);
+router.put("/updateshift/:id", AdminController.updateShift);
+
 
 
 

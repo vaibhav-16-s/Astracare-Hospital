@@ -3,8 +3,10 @@ const dept = require("../../models/Dept");
 const patient = require("../../models/Patient");
 const doctor = require("../../models/Doctor");
 const staff = require("../../models/Staff");
+const shift = require("../../models/Shift");
 const user = require("../../models/User");
 const bcrypt = require("bcrypt");
+
 
 exports.regAdmin = async (req, res) => {
     try {
@@ -153,35 +155,83 @@ exports.regStaff = async (req, res) => {
 };
 
 exports.regDept = async (req, res) => {
+
     try {
-        const doc = await doctor.findOne({
-            email: req.body.headDoctorEmail
-        });
-        if (!doc) {
+
+        let employee;
+
+
+        if (req.body.headEmployeeModel === "Doctor") {
+
+            employee = await doctor.findOne({
+                email: req.body.headEmployeeEmail
+            });
+
+        }
+        else if (req.body.headEmployeeModel === "Staff") {
+
+            employee = await staff.findOne({
+                email: req.body.headEmployeeEmail
+            });
+
+        }
+
+
+        if (!employee) {
+
             return res.json({
                 success: false,
-                message: "Doctor not found."
+                message: "Head employee not found"
             });
+
         }
-        await dept.create({
+
+
+        const department = await dept.create({
+
             name: req.body.name,
+
             description: req.body.description,
-            headDoctor: doc._id,
+
+            headEmployee: employee._id,
+
+            headEmployeeModel: req.body.headEmployeeModel,
+
             location: req.body.location,
+
             status: req.body.status
+
         });
+
+
         res.json({
+
             success: true,
-            message: "Department Registered Successfully"
+
+            message: "Department Registered Successfully",
+
+            data: department
+
         });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
+
+
     }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
 };
+
 
 
 exports.showalldoc = async (req, res) => {
@@ -245,7 +295,7 @@ exports.Deletedoc = async (req, res) => {
     try {
         const id = req.params.id;
         const result = await doctor.deleteOne({ _id: id }).then(function () {
-             user.deleteOne({ userId: id }).then(function () {
+            user.deleteOne({ userId: id }).then(function () {
                 res.json({ msg: "Data and Login deleted Successfully" })
             }).catch(function (e) {
                 res.json({ msg: "data deleted but login deltion failed" });
@@ -260,16 +310,17 @@ exports.Deletedoc = async (req, res) => {
 
 exports.showAllDept = async (req, res) => {
     try {
+
         const departments = await dept.find()
-            .populate("headDoctor", "name email");
+            .populate("headEmployee", "name email");
 
         const deptData = await Promise.all(
             departments.map(async (department) => {
                 const totalDoctors = await doctor.countDocuments({
-                    department: department.name
+                    dept: department.name
                 });
                 const totalStaff = await staff.countDocuments({
-                    department: department.name
+                    dept: department.name
                 });
                 return {
                     ...department.toObject(),
@@ -292,48 +343,97 @@ exports.showAllDept = async (req, res) => {
 
 exports.getDeptDetails = async (req, res) => {
     try {
+
         const deptData = await dept.findById(req.params.id)
-            .populate("headDoctor", "name email");
+            .populate("headEmployee", "name email");
+
         res.json({
             success: true,
             deptData
         });
+
     }
     catch (error) {
+
         res.status(500).json({
             message: error.message
         });
+
     }
 };
 
 exports.updateDept = async (req, res) => {
+
     try {
-        const doc = await doctor.findOne({
-            email: req.body.headDoctorEmail
-        });
-        const updateData = {
-            name: req.body.name,
-            description: req.body.description,
-            location: req.body.location,
-            status: req.body.status
-        };
-        if (doc) {
-            updateData.headDoctor = doc._id;
+
+        let employee;
+        if (!employee) {
+            return res.json({
+                success: false,
+                message: "Head employee not found"
+            });
         }
+
+
+        if (req.body.headEmployeeModel === "Doctor") {
+
+            employee = await doctor.findOne({
+                email: req.body.headEmployeeEmail
+            });
+
+        }
+        else if (req.body.headEmployeeModel === "Staff") {
+
+            employee = await staff.findOne({
+                email: req.body.headEmployeeEmail
+            });
+
+        }
+
+
+        const updateData = {
+
+            name: req.body.name,
+
+            description: req.body.description,
+
+            location: req.body.location,
+
+            status: req.body.status,
+
+            headEmployeeModel: req.body.headEmployeeModel
+
+        };
+
+
+        if (employee) {
+
+            updateData.headEmployee = employee._id;
+
+        }
+
+
         await dept.findByIdAndUpdate(
             req.params.id,
             updateData
         );
+
+
         res.json({
             message: "Department Updated Successfully"
         });
+
+
     }
     catch (error) {
+
         res.status(500).json({
             message: error.message
         });
+
     }
-};
+
+}
 
 exports.Deletedept = async (req, res) => {
     try {
@@ -561,7 +661,7 @@ exports.updatePatient = async (req, res) => {
         const result = await patient.findByIdAndUpdate(
             id,
             update,
-          { returnDocument: 'after'}
+            { returnDocument: 'after' }
         );
 
         console.log(result);
@@ -583,3 +683,235 @@ exports.updatePatient = async (req, res) => {
         });
     }
 };
+
+
+
+
+// -------------------Shift Amnagement----------------
+exports.getEmployeesByRole = async (req, res) => {
+
+    try {
+
+        const role = req.params.role;
+        const department = req.params.department;
+
+        let employees = [];
+        console.log(req.params);
+
+        if (role === "Doctor") {
+
+            employees = await doctor.find({
+
+                department: department
+
+            }).select("_id name");
+
+        }
+        else {
+
+            employees = await staff.find({
+
+                role: role,
+                department: department
+
+            }).select("_id name");
+
+        }
+
+        res.json(employees);
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Failed to fetch employees"
+        });
+
+    }
+
+}
+
+
+exports.getAllShifts = async (req, res) => {
+
+    try {
+
+        const shifts = await shift.find()
+        .populate("empId","name email dept department");
+
+        let shiftData = [];
+
+
+        for (let shiftItem of shifts) {
+
+            let employee = null;
+
+
+            if (shiftItem.empRole === "Doctor") {
+
+                employee = await doctor.findById(shiftItem.empId)
+                    .select("name role");
+
+            }
+            else {
+
+                employee = await staff.findById(shiftItem.empId)
+                    .select("name role");
+
+            }
+
+
+            shiftData.push({
+
+                _id: shiftItem._id,
+
+                employee,
+
+                empRole: shiftItem.empRole,
+
+                weekStart: shiftItem.weekStart,
+
+                schedule: shiftItem.schedule
+
+            });
+
+        }
+
+
+        res.json(shiftData);
+
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message: "Failed to fetch shifts"
+
+        });
+
+    }
+
+}
+
+
+
+
+exports.updateShift = async (req, res) => {
+
+    try {
+
+        const id = req.params.id;
+
+
+        const updatedShift = await shift.findByIdAndUpdate(
+
+            id,
+
+            {
+                weekStart: req.body.weekStart,
+                schedule: req.body.schedule
+            },
+
+            {
+                new: true
+            }
+
+        );
+
+
+        if (!updatedShift) {
+
+            return res.status(404).json({
+                message: "Shift not found"
+            });
+
+        }
+
+
+        res.json({
+
+            message: "Shift updated successfully",
+            data: updatedShift
+
+        });
+
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+}
+
+
+exports.getShiftById = async (req, res) => {
+
+    try {
+
+        const data = await shift.findById(req.params.id);
+
+
+        res.json(data);
+
+    }
+    catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+}
+
+exports.assignWeeklyShift = async (req, res) => {
+
+    try {
+
+        const {
+            empId,
+            empRole,
+            weekStart,
+            schedule
+        } = req.body;
+
+
+        const newSchedule = await shift.create({
+
+            empId,
+            empRole,
+            weekStart,
+            schedule
+
+        });
+
+
+        res.json({
+            message: "Weekly schedule assigned",
+            data: newSchedule
+        });
+
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+}

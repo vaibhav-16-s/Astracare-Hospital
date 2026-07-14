@@ -24,8 +24,8 @@ function ManageDept() {
             console.log(error);
         }
     };
-    const filterDept=deptData.filter((dept)=>{
-        return(
+    const filterDept = deptData.filter((dept) => {
+        return (
             dept.name.toLowerCase().includes(search.toLowerCase())
         )
     });
@@ -47,7 +47,7 @@ function ManageDept() {
                         departments when necessary.
                     </p>
 
-                   <div>
+                    <div>
                         <input onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search By Dept/" className=" mr-sm-2" />
                     </div>
 
@@ -74,8 +74,13 @@ function ManageDept() {
                                     </Card.Text>
 
                                     <Card.Text>
-                                        <b>Head Doctor:</b>{" "}
-                                        {dept.headDoctor?.name || "Not Assigned"}
+                                        <b>Head Employee:</b>{" "}
+                                        {dept.headEmployee?.name || "Not Assigned"}
+                                    </Card.Text>
+
+                                    <Card.Text>
+                                        <b>Employee Type:</b>{" "}
+                                        {dept.headEmployeeModel}
                                     </Card.Text>
 
                                     <Card.Text>

@@ -22,7 +22,7 @@ export const AdminNav = () => {
 
           <NavDropdown title="Account" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Update Password</NavDropdown.Item>
-              <NavDropdown.Item href="/admin/register">Register Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/admin/adminregister">Register Admin</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">logout</NavDropdown.Item>
             </NavDropdown>

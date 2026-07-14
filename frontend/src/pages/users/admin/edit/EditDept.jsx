@@ -7,10 +7,11 @@ function EditDept() {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [headDoctorEmail, setHeadDoctorEmail] = useState("");
+    const [headEmployeeEmail, setHeadEmployeeEmail] = useState("");
+    const [headEmployeeModel, setHeadEmployeeModel] = useState("");
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const [res, setRes] = useState("");
 
@@ -36,11 +37,19 @@ function EditDept() {
             setStatus(result.status);
 
             // because headDoctor is populated
-            if(result.headDoctor){
-                setHeadDoctorEmail(result.headDoctor.email);
+            if (result.headEmployee) {
+
+                setHeadEmployeeEmail(
+                    result.headEmployee.email
+                );
+
             }
 
-        } catch(error){
+            setHeadEmployeeModel(
+                result.headEmployeeModel
+            );
+
+        } catch (error) {
             console.log(error);
         }
     };
@@ -50,12 +59,21 @@ function EditDept() {
         try {
             const response = await axios.put(
                 `http://localhost:5000/admin/updatedept/${id}`,
-                {id,name,description,headDoctorEmail,location,status}
+                {
+
+                    name,
+                    description,
+                    headEmployeeEmail,
+                    headEmployeeModel,
+                    location,
+                    status
+
+                }
             );
             setRes(response.data.message);
             setTimeout(() => navigate("/admin/managedept", { replace: true }), 2000);
         }
-        catch(error){
+        catch (error) {
             console.log(error);
         }
     }
@@ -71,34 +89,58 @@ function EditDept() {
                     <input
                         type="text"
                         value={name}
-                        onChange={(e)=>setName(e.target.value)}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </p>
                 <p>
                     Description:
                     <textarea
                         value={description}
-                        onChange={(e)=>setDescription(e.target.value)}
+                        onChange={(e) => setDescription(e.target.value)}
                         style={{
-                            width:"400px",
-                            height:"100px"
+                            width: "400px",
+                            height: "100px"
                         }}
                     />
                 </p>
                 <p>
-                    Head Doctor Email:
+                    Head Employee Email:
                     <input
-                        type="text"
-                        value={headDoctorEmail}
-                        onChange={(e)=>setHeadDoctorEmail(e.target.value)}
+
+                        value={headEmployeeEmail}
+
+                        onChange={(e) =>
+                            setHeadEmployeeEmail(e.target.value)
+                        }
+
                     />
+                    <select
+
+                        value={headEmployeeModel}
+
+                        onChange={(e) =>
+                            setHeadEmployeeModel(e.target.value)
+                        }
+
+                    >
+
+                        <option value="Doctor">
+                            Doctor
+                        </option>
+
+                        <option value="Staff">
+                            Staff
+                        </option>
+
+
+                    </select>
                 </p>
                 <p>
                     Location:
                     <input
                         type="text"
                         value={location}
-                        onChange={(e)=>setLocation(e.target.value)}
+                        onChange={(e) => setLocation(e.target.value)}
                     />
                 </p>
                 <p>
@@ -106,7 +148,7 @@ function EditDept() {
 
                     <select
                         value={status}
-                        onChange={(e)=>setStatus(e.target.value)}>
+                        onChange={(e) => setStatus(e.target.value)}>
 
                         <option value="Active">
                             Active

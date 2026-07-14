@@ -5,7 +5,8 @@ import { AdminNav } from "../../../../components/navbar/AdminNav";
 function DeptReg() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [headDoctorEmail, setHeadDoctorEmail] = useState("");
+  const [headEmployeeEmail, setHeadEmployeeEmail] = useState("");
+  const [headEmployeeModel, setHeadEmployeeModel] = useState("");
   const [location, setLocation] = useState("");
   const [status, setStatus] = useState("select");
   const [res, setRes] = useState("");
@@ -14,7 +15,14 @@ function DeptReg() {
     try {
       const response = await axios.post(
         "http://localhost:5000/admin/deptregister",
-        { name, description, headDoctorEmail, location, status, }
+        {
+          name,
+          description,
+          headEmployeeEmail,
+          headEmployeeModel,
+          location,
+          status
+        }
       );
 
       const result = response.data;
@@ -24,7 +32,8 @@ function DeptReg() {
       if (result.success) {
         setName("");
         setDescription("");
-        setHeadDoctorEmail("")
+        setHeadEmployeeEmail("");
+        setHeadEmployeeModel("");
         setLocation("");
         setStatus("");
       }
@@ -62,13 +71,40 @@ function DeptReg() {
         </p>
 
         <p>
-          Head Doctor Email:
+          Head Employee Type:
+
+          <select
+            value={headEmployeeModel}
+            onChange={(e) => setHeadEmployeeModel(e.target.value)}
+          >
+
+            <option value="">
+              Select
+            </option>
+
+            <option value="Doctor">
+              Doctor
+            </option>
+
+            <option value="Staff">
+              Staff
+            </option>
+
+          </select>
+
+        </p>
+
+
+        <p>
+          Head Employee Email:
+
           <input
             type="text"
-            value={headDoctorEmail}
-            onChange={(e) => setHeadDoctorEmail(e.target.value)}
-            placeholder="Enter Doctor Email"
+            value={headEmployeeEmail}
+            onChange={(e) => setHeadEmployeeEmail(e.target.value)}
+            placeholder="Enter Employee Email"
           />
+
         </p>
 
         <p>
@@ -85,11 +121,11 @@ function DeptReg() {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}>
-              
+
             <option value="Select">Select</option>
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
-            
+
           </select>
         </p>
 
