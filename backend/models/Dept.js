@@ -25,7 +25,7 @@ const departmentSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: [
-            "Doctor",
+            "doctor",
             "Staff"
         ]
     },

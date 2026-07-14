@@ -8,7 +8,7 @@ function DeleteDept() {
     const [description, setDescription] = useState("");
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
-
+const [headDoctorEmail, setHeadDoctorEmail] = useState("");
     const [res, setRes] = useState("");
     const navigate = useNavigate();
 

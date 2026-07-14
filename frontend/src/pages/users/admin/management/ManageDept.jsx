@@ -80,7 +80,7 @@ function ManageDept() {
 
                                     <Card.Text>
                                         <b>Employee Type:</b>{" "}
-                                        {dept.headEmployeeModel}
+                                        {dept.headEmployee ? dept.headEmployeeModel : "N/A"}
                                     </Card.Text>
 
                                     <Card.Text>

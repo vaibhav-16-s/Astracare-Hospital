@@ -9,7 +9,6 @@ import axios from 'axios';
 
 
 function ManageStaff() {
-
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("receptionist");
     const [staffData, setStaffData] = useState([]);

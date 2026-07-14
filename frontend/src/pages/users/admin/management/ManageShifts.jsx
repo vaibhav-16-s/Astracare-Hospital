@@ -13,13 +13,18 @@ function ManageShifts() {
 
     const [shifts, setShifts] = useState([]);
     const [shiftLimit, setShiftLimit] = useState(10);
+    const [search, setSearch] = useState("");
     const [activeRole, setActiveRole] = useState("Doctor");
     const navigate = useNavigate();
     const [expandedShift, setExpandedShift] = useState(null);
 
-    const filteredShifts = shifts.filter(
-        (shift) => shift.empRole === activeRole
-    );
+    const filteredShifts = shifts.filter((shift) => {
+        const matchesRole = shift.empRole === activeRole;
+        const matchesSearch = shift.empId?.name
+            ?.toLowerCase()
+            .includes(search.toLowerCase());
+        return matchesRole && matchesSearch;
+    });
 
     useEffect(() => {
         fetchShifts();
@@ -68,6 +73,8 @@ function ManageShifts() {
                             type="text"
                             placeholder="Search Employee"
                             className="form-control w-50"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
 
                         <Button
@@ -287,7 +294,7 @@ function ManageShifts() {
                     </Table>
 
                     {
-                        shiftLimit < shifts.length && (
+                        shiftLimit < filteredShifts.length && (
 
                             <div className="text-center mt-3">
 

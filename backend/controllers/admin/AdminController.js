@@ -316,8 +316,10 @@ exports.showAllDept = async (req, res) => {
 
         const deptData = await Promise.all(
             departments.map(async (department) => {
-                const totalDoctors = await doctor.countDocuments({
-                    dept: department.name
+                
+                   const totalDoctors = await doctor.countDocuments({
+                    department: department.name 
+             
                 });
                 const totalStaff = await staff.countDocuments({
                     dept: department.name
@@ -361,79 +363,42 @@ exports.getDeptDetails = async (req, res) => {
 
     }
 };
-
 exports.updateDept = async (req, res) => {
-
     try {
+        let employee = null;
 
-        let employee;
+        // 1. Fetch employee first based on model type
+        if (req.body.headEmployeeModel === "Doctor") {
+            employee = await doctor.findOne({ email: req.body.headEmployeeEmail });
+        } else if (req.body.headEmployeeModel === "Staff") {
+            employee = await staff.findOne({ email: req.body.headEmployeeEmail });
+        }
+
+        // 2. Validate existence
         if (!employee) {
             return res.json({
                 success: false,
-                message: "Head employee not found"
+                message: "Head employee not found with that email."
             });
         }
-
-
-        if (req.body.headEmployeeModel === "Doctor") {
-
-            employee = await doctor.findOne({
-                email: req.body.headEmployeeEmail
-            });
-
-        }
-        else if (req.body.headEmployeeModel === "Staff") {
-
-            employee = await staff.findOne({
-                email: req.body.headEmployeeEmail
-            });
-
-        }
-
 
         const updateData = {
-
             name: req.body.name,
-
             description: req.body.description,
-
             location: req.body.location,
-
             status: req.body.status,
-
-            headEmployeeModel: req.body.headEmployeeModel
-
+            headEmployeeModel: req.body.headEmployeeModel,
+            headEmployee: employee._id // Attach the found ID
         };
 
+        await dept.findByIdAndUpdate(req.params.id, updateData);
 
-        if (employee) {
-
-            updateData.headEmployee = employee._id;
-
-        }
-
-
-        await dept.findByIdAndUpdate(
-            req.params.id,
-            updateData
-        );
-
-
-        res.json({
-            message: "Department Updated Successfully"
-        });
-
-
+        res.json({ success: true, message: "Department Updated Successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    catch (error) {
+};
 
-        res.status(500).json({
-            message: error.message
-        });
-
-    }
-
-}
 
 exports.Deletedept = async (req, res) => {
     try {
@@ -712,7 +677,7 @@ exports.getEmployeesByRole = async (req, res) => {
             employees = await staff.find({
 
                 role: role,
-                department: department
+                dept: department
 
             }).select("_id name");
 
@@ -738,8 +703,7 @@ exports.getAllShifts = async (req, res) => {
 
     try {
 
-        const shifts = await shift.find()
-        .populate("empId","name email dept department");
+        const shifts = await shift.find();
 
         let shiftData = [];
 
@@ -752,13 +716,13 @@ exports.getAllShifts = async (req, res) => {
             if (shiftItem.empRole === "Doctor") {
 
                 employee = await doctor.findById(shiftItem.empId)
-                    .select("name role");
+                    .select("name department");
 
             }
             else {
 
                 employee = await staff.findById(shiftItem.empId)
-                    .select("name role");
+                    .select("name dept");
 
             }
 
@@ -767,7 +731,7 @@ exports.getAllShifts = async (req, res) => {
 
                 _id: shiftItem._id,
 
-                employee,
+                empId: employee,
 
                 empRole: shiftItem.empRole,
 
@@ -890,6 +854,7 @@ exports.assignWeeklyShift = async (req, res) => {
         const newSchedule = await shift.create({
 
             empId,
+            empModel: empRole === "Doctor" ? "Doctor" : "Staff",
             empRole,
             weekStart,
             schedule
